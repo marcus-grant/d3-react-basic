@@ -1,9 +1,14 @@
 import React from 'react';
 
+import Chart from './chart.jsx';
+
 export default class App extends React.Component {
   render() {
     return (
-      <h1>Hello World!</h1>
+      <div>
+        <h1>D3 Randomized Scatter Plot</h1>
+        <Chart />
+      </div>
     );
   }
 }
