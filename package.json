@@ -9,6 +9,7 @@
     "d3": "^3.5.16",
     "meteor-node-stubs": "~0.2.4",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-router": "^4.2.0"
   }
 }
