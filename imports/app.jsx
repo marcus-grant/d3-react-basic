@@ -19,23 +19,21 @@ const routes = [
 ];
 
 export default class App extends React.Component {
-  renderRoutes() {
-    return ({
-      routes.map((route, index) => (
-        <Route
-          path={route.path},
-          component={route.component},
-          exact={route.exact},
-        />
-      ));
-    });
-  }
+  // renderRoutes() {
+  //   return ({
+  //     routes.map((route, index) => (
+  //       <Route
+  //         path={route.path},
+  //         component={route.component},
+  //         exact={route.exact},
+  //       />
+  //     ));
+  //   });
+  // }
   render() {
     return (
       <div>
-        <BrowserRouter>
-          {renderRoutes()}
-        <BrowserRouter/>
+        <Chart type="scatter" />
       </div>
     );
   }

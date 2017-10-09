@@ -1,7 +1,9 @@
 // unfinished/src/components/scatter-plot.jsx
 import React        from 'react';
 import d3           from 'd3';
+
 import DataCircles  from './data-circles';
+import XYAxis       from './x-y-axis';
 
 // Returns the largest X coordinate from the data set
 const xMax   = (data)  => d3.max(data, (d) => d[0]);
@@ -27,5 +29,6 @@ export default (props) => {
   const scales = { xScale: xScale(props), yScale: yScale(props) };
   return <svg width={props.width} height={props.height}>
     <DataCircles {...props} {...scales} />
+    <XYAxis {...props} {...scales} />
   </svg>
-}
+};

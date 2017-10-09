@@ -21,7 +21,8 @@ const randomDataSet = () => {
 export default class Chart extends React.Component{
   constructor(props) {
     super(props);
-    this.state = { data: randomDataSet() };
+    this.state = { type: this.props.type,
+                  data: randomDataSet() };
   }
 
   randomizeData() {
@@ -29,9 +30,16 @@ export default class Chart extends React.Component{
   }
 
   render() {
+    let content = null;
+    if (this.props.type == 'scatter') {
+      content = <ScatterPlot {...this.state} {...styles} />;
+    } else { 
+      content = <h4>ERROR: Plot Type not recognized</h4>; }
     return (
     <div>
-      <ScatterPlot {...this.state} {...styles} />
+      <div className="chart__canvas">
+        {content}
+      </div>
       <div className="controls">
         <button className="btn randomize" onClick={() => this.randomizeData()}>
           Randomize Data
