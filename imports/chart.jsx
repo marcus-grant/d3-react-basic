@@ -4,7 +4,7 @@ import ScatterPlot from './scatter-plot';
 const styles = {
   width   : 500,
   height  : 300,
-  padding : 30,
+  padding : 50,
 };
 
 // The number of data points for the chart.
