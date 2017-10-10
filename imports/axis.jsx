@@ -20,3 +20,4 @@ export default class Axis extends React.Component {
     return <g className="axis" ref="axis" transform={this.props.translate}></g>
   }
 }
+
