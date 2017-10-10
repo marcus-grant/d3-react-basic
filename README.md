@@ -186,6 +186,89 @@ export default (props) => {
 - React is now handling and binding all the data, D3 is simply doing the math on that data, because D3 is much better at this than React
 - Finally, another react component is passed, that will actually draw the data itself, as circles on the plot, `<DataCircles>`
 
+## Draw Some Axes
+- Inside `imports/scatter-plot.jsx`:
+  - Add an import for a new component `XYAxis` used to draw 2D cartesian chart axes
+  - Then include this component in the render section
+
+`imports/scatter-plot.jsx`
+```jsx
+// ...
+import XYAxis       from './x-y-axis';
+
+// ...
+
+export default (props) => {
+  const scales = { xScale: xScale(props), yScale: yScale(props) };
+  return <svg width={props.width} height={props.height}>
+    <DataCircles {...props} {...scales} />
+    <XYAxis {...props} {...scales} />
+  </svg>
+}
+```
+- Then create the `XYAxis` component used above:
+  - Create two helper functions that format props for drawing horizontally for the x-axis and then y-axis vertically
+  - Render functionally by return a `<g>` tag with the previously defined props for how `Axis` will draw the axes
+  - Render two `Axis` components, one given props for the x-axis, on for props for the y-axis
+
+`imports/x-y-axis.jsx`
+```jsx
+import React  from 'react';
+import Axis   from './axis';
+
+export default (props) => {
+  const xSettings = {
+    translate: `translate(0, ${props.height - props.padding})`,
+    scale: props.xScale,
+    orient: 'bottom'
+  };
+  const ySettings = {
+    translate: `translate(${props.padding}, 0)`,
+    scale: props.yScale,
+    orient: 'left'
+  };
+  return <g className="xy-axis">
+    <Axis {...xSettings}/>
+    <Axis {...ySettings}/>
+  </g>
+}
+```
+- Finally create an `Axis` component that takes D3 and draws the axis themselves based on the props passed to it:
+  - import React & D3 this time
+  - using lifecycle methods `componentDidMount()` & `componentDidUpdate()` instead of D3's `select`, `update` and `delete`, allows react to manage when and how things are rendered on the DOM, while still using useful D3 functions
+    - Has other benefits like the faster render engine of react, easier to reuse code, easier to imagine what is being drawn since the drawing is done in jsx using D3 functions
+    - the lifecycle functions get called whenever the component is created `componentDidMount` and update with `componentDidUpdate`
+  - `renderAxis()` takes the props that specify `orientation` & `scale` and uses d3 functions, `axis`, `ticks`, `scale`
+    - instead of rendering directly to DOM, a temporary component is created which gets `select`ed by d3 and drawn to, which then gets grabbed by the `render` method using a `ref`
+  - `render()` simply returns a `g` tag that gets updated whenever the parent component is redrawn or craeted
+
+`imports/axis.jsx`
+```jsx
+import React from 'react';
+import d3    from 'd3';
+
+export default class Axis extends React.Component {
+  componentDidMount() {
+    this.renderAxis();
+  }
+
+  componentDidUpdate() {
+    this.renderAxis();
+  }
+
+  renderAxis() {
+    var node  = this.refs.axis;
+    var axis = d3.svg.axis().orient(this.props.orient).ticks(5).scale(this.props.scale);
+    d3.select(node).call(axis);
+  }
+
+  render() {
+    return <g className="axis" ref="axis" transform={this.props.translate}></g>
+  }
+}
+```
+
+
 ## References
 [1]: https://github.com/freddyrangel/playing-with-react-and-d3
 [2]: https://medium.com/missive-app/45-faster-react-functional-components-now-3509a668e69f
