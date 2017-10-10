@@ -1,5 +1,5 @@
-import React from 'react';
-import Axis from './axis.jsx';
+import React  from 'react';
+import Axis   from './axis';
 
 export default (props) => {
   const xSettings = {
@@ -13,8 +13,7 @@ export default (props) => {
     orient: 'left'
   };
   return <g className="xy-axis">
-      <Axis {...xSettings}/>
-      <Axis {...ySettings}/>
+    <Axis {...xSettings}/>
+    <Axis {...ySettings}/>
   </g>
-    
 }
