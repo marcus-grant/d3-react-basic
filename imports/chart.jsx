@@ -1,5 +1,7 @@
-import React       from 'react';
-import ScatterPlot from './scatter-plot';
+import React        from 'react';
+import d3           from 'd3';
+import ScatterPlot  from './scatter-plot';
+import LineGraph    from './line-graph'; 
 
 const styles = {
   width   : 500,
@@ -18,21 +20,36 @@ const randomDataSet = () => {
   return Array.apply(null, {length: numDataPoints}).map(() => [randomNum(), randomNum()]);
 }
 
+const randomTimeSeries = () => {
+  return Array.apply(null, {length: numDataPoints}).map((index) => [index, randomNum()]);
+}
+
 export default class Chart extends React.Component{
   constructor(props) {
     super(props);
-    this.state = { type: this.props.type,
-                  data: randomDataSet() };
+    this.state = {  type: this.props.type,
+                    radius: 3,
+                    data: randomDataSet() };
   }
 
   randomizeData() {
     this.setState({ data: randomDataSet() });
   }
 
+  incrementRadius() {
+    this.setState({ radius: this.state.radius + 1 });
+  }
+
+  decrementRadius() {
+    this.setState({ radius: this.state.radius - 1 });
+  }
+
   render() {
     let content = null;
     if (this.props.type == 'scatter') {
       content = <ScatterPlot {...this.state} {...styles} />;
+    } else if (this.props.type == 'line-graph'){
+      content = <LineGraph {...this.state} {...styles} />; 
     } else { 
       content = <h4>ERROR: Plot Type not recognized</h4>; }
     return (
@@ -44,6 +61,8 @@ export default class Chart extends React.Component{
         <button className="btn randomize" onClick={() => this.randomizeData()}>
           Randomize Data
         </button>
+        <button className="btn randomize" onClick={() => this.incrementRadius() }>+Radius+</button>
+        <button className="btn randomize" onClick={() => this.decrementRadius() }>-Radius-</button>
       </div>
     </div>
     );

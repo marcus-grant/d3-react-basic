@@ -33,7 +33,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Chart type="scatter" />
+        <Chart type="line-graph" />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import React        from 'react';
 import d3           from 'd3';
 
 import DataCircles  from './data-circles';
+import DataDots     from './data-dots';
 import XYAxis       from './x-y-axis';
 
 // Returns the largest X coordinate from the data set
