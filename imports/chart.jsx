@@ -1,5 +1,6 @@
 import React        from 'react';
 import d3           from 'd3';
+
 import ScatterPlot  from './scatter-plot';
 import LineGraph    from './line-graph'; 
 
@@ -10,7 +11,7 @@ const styles = {
 };
 
 // The number of data points for the chart.
-const numDataPoints = 50;
+const numDataPoints = 10;
 
 // A function that returns a random number from 0 to 1000
 const randomNum     = () => Math.floor(Math.random() * 1000);
@@ -20,8 +21,9 @@ const randomDataSet = () => {
   return Array.apply(null, {length: numDataPoints}).map(() => [randomNum(), randomNum()]);
 }
 
+// Create a time series (equi-spaced independent axis) with random dependant axis
 const randomTimeSeries = () => {
-  return Array.apply(null, {length: numDataPoints}).map((index) => [index, randomNum()]);
+  return Array.from(new Array(numDataPoints), (val, index) => [index, randomNum()]);
 }
 
 export default class Chart extends React.Component{
@@ -29,42 +31,56 @@ export default class Chart extends React.Component{
     super(props);
     this.state = {  type: this.props.type,
                     radius: 3,
-                    data: randomDataSet() };
+                    data: randomTimeSeries() };
   }
 
   randomizeData() {
-    this.setState({ data: randomDataSet() });
+    if (this.state.type = "scatter") {
+      console.log("randomized scatter");
+      this.setState({ data: randomDataSet()});
+    } else if (this.state.type = "line-graph") {
+      console.log("randomized time-series");
+      this.setState({ data: randomTimeSeries() }); 
+    }
   }
 
-  incrementRadius() {
-    this.setState({ radius: this.state.radius + 1 });
-  }
+  incrementRadius() { this.setState({ radius: this.state.radius + 1 }); }
 
-  decrementRadius() {
-    this.setState({ radius: this.state.radius - 1 });
-  }
+  decrementRadius() { this.setState({ radius: this.state.radius - 1 }); }
 
   render() {
-    let content = null;
+    console.log("render: Chart.state.type = ", this.state.type);
+    let chart = null;
     if (this.props.type == 'scatter') {
-      content = <ScatterPlot {...this.state} {...styles} />;
+      chart = <ScatterPlot {...this.state} {...styles} />;
     } else if (this.props.type == 'line-graph'){
-      content = <LineGraph {...this.state} {...styles} />; 
+      chart = <LineGraph {...this.state} {...styles} />; 
     } else { 
-      content = <h4>ERROR: Plot Type not recognized</h4>; }
+      chart = <h4>ERROR: Plot Type not recognized</h4>; }
     return (
-    <div>
-      <div className="chart__canvas">
-        {content}
+      <div className="chart-container">
+        { chart }
+        <div className="chart-controls">
+          <div className="chart-controls__container">
+            <p>Data</p>
+            <button
+              className="chart-controls__button"
+              onClick={() => this.randomizeData()}
+            >Randomize</button>
+          </div>
+          <div className="chart-controls__container">
+            <h6>Radius</h6>
+            <button
+              className="chart-controls__button"
+              onClick={() => this.decrementRadius()}
+            >-</button>
+            <button
+              className="chart-controls__button"
+              onClick={() => this.incrementRadius()}
+            >+</button>
+          </div>
+        </div>
       </div>
-      <div className="controls">
-        <button className="btn randomize" onClick={() => this.randomizeData()}>
-          Randomize Data
-        </button>
-        <button className="btn randomize" onClick={() => this.incrementRadius() }>+Radius+</button>
-        <button className="btn randomize" onClick={() => this.decrementRadius() }>-Radius-</button>
-      </div>
-    </div>
     );
   }
 }

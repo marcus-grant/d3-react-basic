@@ -22,7 +22,10 @@ const yScale = (props) => {
 
 export default (props) => {
   const scales = { xScale: xScale(props), yScale: yScale(props) };
-  return <svg width={props.width} height={props.height}>
+  return <svg
+    className="chart-canvas"
+    width={props.width} 
+    height={props.height}>
     <DataDots {...props} {...scales}/>
   </svg>
 };
