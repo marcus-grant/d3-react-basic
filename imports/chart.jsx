@@ -29,16 +29,18 @@ const randomTimeSeries = () => {
 export default class Chart extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {  type: this.props.type,
+    this.state = {
                     radius: 3,
                     data: randomTimeSeries() };
+    console.log("Chart.constructor: state.type = ", this.state.type);
+    console.log("Chart.constructor: props.type = ", this.props.type);
   }
 
   randomizeData() {
-    if (this.state.type = "scatter") {
+    if (this.props.type = "scatter") {
       console.log("randomized scatter");
       this.setState({ data: randomDataSet()});
-    } else if (this.state.type = "line-graph") {
+    } else if (this.props.type = "line-graph") {
       console.log("randomized time-series");
       this.setState({ data: randomTimeSeries() }); 
     }
