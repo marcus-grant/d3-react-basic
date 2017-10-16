@@ -1,40 +1,53 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+// import { BrowserRouter } from 'react-router-dom';
 
-import Chart from './chart.jsx';
-import Home from './home.jsx';
+import Workspace from './components/workspace';
 
-const routes = [
-  {
-    path: '/',
-    text: 'HOME',
-    exact: true,
-    component: <Home />,
-  },
-  {
-    path: '/scatter',
-    text: 'SCATTER',
-    component: <Chart type='scatter'/>
-  },
-];
+// import Home from './components/home';
 
-export default class App extends React.Component {
-  // renderRoutes() {
-  //   return ({
-  //     routes.map((route, index) => (
-  //       <Route
-  //         path={route.path},
-  //         component={route.component},
-  //         exact={route.exact},
-  //       />
-  //     ));
-  //   });
-  // }
-  render() {
-    return (
-      <div className="app-container">
-        <Chart type="line-graph" />
-      </div>
-    );
-  }
-}
+// const routes = [
+//   {
+//     path: '/',
+//     text: 'HOME',
+//     exact: true,
+//     component: <Home />,
+//   },
+//   {
+//     path: '/scatter',
+//     text: 'SCATTER',
+//     component: <Chart type='scatter'/>
+//   },
+// ];
+//
+// const chartStyles = {
+//   padding: 32,
+//   width: 500,
+//   height: 320
+// }
+
+export default () => (
+  <div className="workspace">
+    <Workspace chartType="line-graph" />
+  </div>
+);
+
+// export default class App extends React.Component {
+// renderRoutes() {
+//   return ({
+//     routes.map((route, index) => (
+//       <Route
+//         path={route.path},
+//         component={route.component},
+//         exact={route.exact},
+//       />
+//     ));
+//   });
+// }
+//   render() {
+//     return (
+//       <div className="app-container">
+//         <Chart type="line-graph"/>
+//       </div>
+//     );
+//   }
+// }
