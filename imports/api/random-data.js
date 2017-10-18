@@ -1,7 +1,7 @@
 // Enum types
-const type = {
-  linspace: 'linspace',
-  scatter: 'scatter',
+export const RandomDataType = {
+  LINSPACE: 'linspace',
+  SCATTER: 'scatter',
 };
 
 // A function that returns a random number from 0 to 1000
@@ -17,13 +17,11 @@ const randomLinSpace = num => (
   Array.from(new Array(num), (val, index) => [index, randomNum()])
 );
 
-const randomData = (num, dataSetType) => {
-  if (dataSetType === type.linspace) {
+export const randomData = (num, dataSetType) => {
+  if (dataSetType === RandomDataType.LINSPACE) {
     return randomLinSpace(num);
-  } else if (dataSetType === type.scatter) {
+  } else if (dataSetType === RandomDataType.SCATTER) {
     return randomScatter(num);
   }
   return undefined;
 };
-
-export default (num, dataSetType) => randomData(num, dataSetType);
