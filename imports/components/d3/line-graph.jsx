@@ -19,7 +19,6 @@ const yScale = props => d3.scale.linear()
   .range([props.height - props.padding, props.padding]);
 
 const Chart = (props) => {
-  console.log(props.data);
   const scales = { xScale: xScale(props), yScale: yScale(props) };
   return (
     <svg
