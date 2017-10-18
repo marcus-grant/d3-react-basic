@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Chart from './chart';
 import ChartControls from './chart-controls';
-import randomData from '../api/random-data';
+import { randomData, RandomDataType } from '../api/random-data';
 
 
 // TODO: Add enum types for the different chart types
@@ -11,60 +11,60 @@ import randomData from '../api/random-data';
 export default class Workspace extends React.Component {
   constructor(props) {
     super(props);
-    this.setState = {
-      chartType: this.props.chartType,
+    this.state = {
       numDataPoints: 10,
-    };
-    this.setState = {
+      chartType: this.props.chartType,
+      dataSetType: RandomDataType.LINSPACE,
       chartWidth: 560,
       chartHeight: 360,
       chartPadding: 30,
       dataRadius: 3,
-      dataStroke: 2,
-      data: randomData(this.state.numDataPoints, randomData.type.linspace),
+      // dataStrokeWidth: 2,
+      data: [],
     };
   }
 
-  randomizeData() { }
+  // setChartStyle(styles) {
+  //   this.setState({
+  //     chartWidth: styles.width,
+  //     chartHeight: styles.height,
+  //     chartPadding: styles.padding,
+  //   });
+  // }
 
-  setDataPoints(newNumDataPoints) {
-    this.setState({ numDataPoints: newNumDataPoints });
-  }
+  // setDataPoints(newNumDataPoints) {
+  //   this.setState({ numDataPoints: newNumDataPoints });
+  // }
 
-  setDataRadius(newRadius) { this.setState({ dataRadius: newRadius }); }
+  incrementRadius = () => { this.setState({ dataRadius: this.state.dataRadius + 1 }); }
+  decrementRadius = () => { this.setState({ dataRadius: this.state.dataRadius - 1 }); }
 
-  setDataStroke(newStroke) { this.setState({ dataStroke: newStroke }); }
+  // setDataStroke(newStroke) { this.setState({ dataStroke: newStroke }); }
 
-  setChartStyle(styles) {
-    this.setState({
-      chartWidth: styles.width,
-      chartHeight: styles.height,
-      chartPadding: styles.padding,
-    });
+  randomizeData = () => {
+    const newData = randomData(this.state.numDataPoints, this.state.dataSetType);
+    this.setState({ data: newData });
   }
 
   render() {
-    const chartProps = {
-      type: this.state.chartType,
-      data: this.state.data,
-      styles: {
-        width: this.state.chartWidth,
-        height: this.state.chartHeight,
-        padding: this.state.chartPadding,
-        radius: this.state.dataRadius,
-        stroke: this.state.dataStroke,
-      },
+    const chartStyles = {
+      padding: this.state.chartPadding,
+      width: this.state.chartWidth,
+      height: this.state.chartHeight,
     };
-
-    const controlsHandlers = {
-      this.randomizeData(),
-      setDataPoints(num),
+    const controlsCallbacks = {
+      randomizeDataCallback: this.randomizeData,
+      incrementRadiusCallback: this.incrementRadius,
+      decrementRadiusCallback: this.decrementRadius,
     };
-
     return (
       <div className="workspace">
-        <Chart />
-        <ChartControls />
+        <Chart
+          type={this.state.chartType}
+          data={this.state.data}
+          styles={chartStyles}
+        />
+        <ChartControls {...controlsCallbacks} />
       </div>
     );
   }
