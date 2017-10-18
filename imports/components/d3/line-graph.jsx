@@ -1,6 +1,6 @@
 import React from 'react';
 import d3 from 'd3';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 // TODO: A linegraph should just be a scatter plot with
 // lines connected between datadots of adjacent keyvalues
@@ -18,7 +18,7 @@ const yScale = props => d3.scale.linear()
   .domain([0, yMax(props.data)])
   .range([props.height - props.padding, props.padding]);
 
-export default (props) => {
+const Chart = (props) => {
   console.log(props.data);
   const scales = { xScale: xScale(props), yScale: yScale(props) };
   return (
@@ -31,9 +31,11 @@ export default (props) => {
     </svg>);
 };
 
-// React.PropTypes = {
-//   data: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
-//   padding: React.PropTypes.number.isRequired,
-//   width: React.PropTypes.number.isRequired,
-//   height: React.PropTypes.number.isRequired,
-// };
+Chart.propTypes = {
+  data: PropTypes.arrayOf(React.PropTypes.number).isRequired,
+  padding: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+};
+
+export default Chart;
