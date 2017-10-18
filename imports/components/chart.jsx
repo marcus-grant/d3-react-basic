@@ -7,13 +7,15 @@ import LineGraph from './d3/line-graph';
 // This is merely a generic chart, its props determine what and how the charts
 // that are imported from other definitions get rendered
 
-const scatterPlot = (data, styles) => <ScatterPlot {...data}{...styles} />;
-const lineGraph = (data, styles) => <LineGraph {...data}{...styles} />;
+// TODO: type should be an enum
+
+const scatterPlot = (styles, data) => <ScatterPlot {...styles} data={data} />;
+const lineGraph = (styles, data) => <LineGraph {...styles} data={data} />;
 const chartFromType = (type, data, styles) => {
   if (type === 'line') {
-    return lineGraph(data, styles);
+    return lineGraph(styles, data);
   } else if (type === 'scatter') {
-    return scatterPlot(data, styles);
+    return scatterPlot(styles, data);
   }
   return undefined;
 };
