@@ -11,10 +11,10 @@ import DataDots from './data-dots';
 const xMax = data => d3.max(data, d => d[0]);
 const yMax = data => d3.max(data, d => d[1]);
 
-const xScale = props => d3.scale.linear()
+const xScale = props => d3.scaleLinear()
   .domain([0, xMax(props.data)])
   .range([props.padding, props.width - (props.padding * 2)]);
-const yScale = props => d3.scale.linear()
+const yScale = props => d3.scaleLinear()
   .domain([0, yMax(props.data)])
   .range([props.height - props.padding, props.padding]);
 

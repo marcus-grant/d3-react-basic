@@ -11,6 +11,7 @@ import LineGraph from './d3/line-graph';
 
 const scatterPlot = (styles, data) => <ScatterPlot {...styles} data={data} />;
 const lineGraph = (styles, data) => <LineGraph {...styles} data={data} />;
+const semLineGraph = (styles, data) => <p>{styles}{data}</p>; // TODO: put semiotic version here
 const chartFromType = (type, data, styles) => {
   if (type === 'line') {
     return lineGraph(styles, data);

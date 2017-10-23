@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 
-import App from '../imports/app.jsx';
+import App from '../imports/app';
 
-Meteor.startup(() => {                                                                                                                                                              
-  ReactDOM.render(<App/>, document.getElementById('react-root'));
-});                                                                                                                                                                                 
+Meteor.startup(() => {
+  const app = <App />;
+  ReactDOM.render(app, document.getElementById('react-root'));
+});
