@@ -2,26 +2,50 @@
 export const RandomDataType = {
   LINSPACE: 'linspace',
   SCATTER: 'scatter',
+  KEYED_LINSPACE: 'keyed-linspace',
 };
 
+const ascendingLinSpace = (max, min = 0, interval = 1) => (
+  // Math.floor((max - min) / interval), (val, idx) => (interval * idx) + min)
+  // TODO: Change so it reflects (interval * idx) + min
+  Array(...{ length: (Math.floor((max - min) / interval)) }).map(Number.call, Number)
+);
+
 // A function that returns a random number from 0 to 1000
-const randomNum = () => Math.floor(Math.random() * 1000);
+const randomNum = (min, max) => Math.floor(min + (Math.random() * max));
+
+// A function that returns an array of random numbers of min & max values of count
+const randomArray = (count, min = 0.0, max = 1.0) =>
+  Array.from(new Array(count), () => randomNum(min, max));
 
 // A function that creates an array of 50 elements of (x, y) coordinates.
-const randomScatter = num => (
-  Array.from(new Array(num), () => [randomNum(), randomNum()])
+const randomScatter = count => (
+  Array.from(new Array(count), () => [randomNum(0, 1000), randomNum(0, 1000)])
 );
 
 // Create a time series (equi-spaced independent axis) with random dependant axis
-const randomLinSpace = num => (
-  Array.from(new Array(num), (val, index) => [index, randomNum()])
+const randomLinSpace = count => (
+  Array.from(new Array(count), (val, index) => [index, randomNum(0, 1000)])
 );
 
-export const randomData = (num, dataSetType) => {
+const keyedLinSpace = (num, keys) => {
+  const keyedRandData = {};
+  keys.forEach((key, keyIndex) => {
+    keyedRandData[key] =
+      (keyIndex === 0) ? ascendingLinSpace(num) : randomArray(num, 0, 1000);
+  });
+  console.log('ascLinSpace: !!!!!!!!!!!!!!!!!!!!!', ascendingLinSpace(num));
+  return keyedRandData;
+};
+
+export const randomData = (num, dataSetType, keys) => {
+  const validatedKeys = (typeof keys !== 'undefined') ? keys : ['time', 'data'];
   if (dataSetType === RandomDataType.LINSPACE) {
     return randomLinSpace(num);
   } else if (dataSetType === RandomDataType.SCATTER) {
     return randomScatter(num);
+  } else if (dataSetType === RandomDataType.KEYED_LINSPACE) {
+    return keyedLinSpace(num, validatedKeys);
   }
   return undefined;
 };
