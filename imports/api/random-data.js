@@ -28,15 +28,16 @@ const randomLinSpace = count => (
   Array.from(new Array(count), (val, index) => [index, randomNum(0, 1000)])
 );
 
-const keyedLinSpace = (num, keys) => {
+const keyedLinSpaceEntry = (num, keys) => {
   const keyedRandData = {};
   keys.forEach((key, keyIndex) => {
     keyedRandData[key] =
       (keyIndex === 0) ? ascendingLinSpace(num) : randomArray(num, 0, 1000);
   });
-  console.log('ascLinSpace: !!!!!!!!!!!!!!!!!!!!!', ascendingLinSpace(num));
   return keyedRandData;
 };
+
+const keyedLinSpace = (count, keys) => Array.from(new Array(count), (val, index) => []);
 
 export const randomData = (num, dataSetType, keys) => {
   const validatedKeys = (typeof keys !== 'undefined') ? keys : ['time', 'data'];
