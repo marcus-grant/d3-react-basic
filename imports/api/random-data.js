@@ -1,8 +1,8 @@
 // Enum types
 export const RandomDataType = {
-  LINSPACE: 'linspace',
-  SCATTER: 'scatter',
-  KEYED_LINSPACE: 'keyed-linspace',
+  LINSPACE: 0,
+  SCATTER: 1,
+  KEYED_LINSPACE: 2,
 };
 
 const ascendingLinSpace = (max, min = 0, interval = 1) => (

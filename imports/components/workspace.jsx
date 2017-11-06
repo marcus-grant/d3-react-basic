@@ -1,75 +1,42 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-import Chart from './chart';
-import ChartControls from './chart-controls';
+import { Chart, ChartType } from './chart';
 import { randomData, RandomDataType } from '../api/random-data';
 
 
-// TODO: Add enum types for the different chart types
-
+// This class concerns itself with managing the state and styles of a chart and its controls
 export default class Workspace extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numDataPoints: 10,
-      chartType: this.props.chartType,
-      dataSetType: RandomDataType.LINSPACE,
+  state = {
+    chartType: ChartType.LINE_GRAPH,
+    styles: {
       chartWidth: 560,
       chartHeight: 360,
       chartPadding: 30,
       dataRadius: 3,
-      // dataStrokeWidth: 2,
-      data: [],
-    };
-  }
-
-  // setChartStyle(styles) {
-  //   this.setState({
-  //     chartWidth: styles.width,
-  //     chartHeight: styles.height,
-  //     chartPadding: styles.padding,
-  //   });
-  // }
-
-  // setDataPoints(newNumDataPoints) {
-  //   this.setState({ numDataPoints: newNumDataPoints });
-  // }
-
-  incrementRadius = () => { this.setState({ dataRadius: this.state.dataRadius + 1 }); }
-  decrementRadius = () => { this.setState({ dataRadius: this.state.dataRadius - 1 }); }
-
-  // setDataStroke(newStroke) { this.setState({ dataStroke: newStroke }); }
-
-  randomizeData = () => {
-    const newData = randomData(this.state.numDataPoints, this.state.dataSetType);
-    this.setState({ data: newData });
-  }
-
+      dataStroke: 2,
+    },
+    numDataPoints: 10,
+    data: randomData(10, RandomDataType.LINSPACE),
+  };
   render() {
-    const chartStyles = {
-      padding: this.state.chartPadding,
-      width: this.state.chartWidth,
-      height: this.state.chartHeight,
-    };
-    const controlsCallbacks = {
-      randomizeDataCallback: this.randomizeData,
-      incrementRadiusCallback: this.incrementRadius,
-      decrementRadiusCallback: this.decrementRadius,
-    };
+    // const styles = {
+    //   chartWidth,
+    //   chartHeight,
+    //   chartPadding,
+    //   dataRadius,
+    //   dataStroke,
+    // } = this.state;
+    console.log('[Workspace.render()]: this.state = ', this.state);
     return (
       <div className="workspace">
         <Chart
           type={this.state.chartType}
           data={this.state.data}
-          styles={chartStyles}
+          styles={this.state.styles}
         />
-        <ChartControls {...controlsCallbacks} />
+        <h3>Controls</h3>
       </div>
     );
   }
 }
-
-Workspace.propTypes = {
-  chartType: PropTypes.string.isRequired,
-};

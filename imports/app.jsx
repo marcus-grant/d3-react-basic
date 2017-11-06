@@ -27,7 +27,7 @@ import Workspace from './components/workspace';
 
 export default () => (
   <div className="workspace">
-    <Workspace chartType="line" />
+    <Workspace />
   </div>
 );
 
