@@ -40,7 +40,7 @@ const chartFromType = (type, data, styles) => {
   return undefined;
 };
 
-export default (props) => {
+export const Chart = (props) => {
   const {
     type,
     data,
