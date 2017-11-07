@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { XYFrame } from 'semiotic';
+import { curveCardinal } from 'd3-shape';
 
 import ScatterPlot from './d3/scatter-plot';
 import LineGraph from './d3/line-graph';
-import movieData from '../data/movies-data';
 
 export const ChartType = {
   SEM_LINE_GRAPH: 0,
@@ -22,13 +22,36 @@ export const ChartType = {
 
 const scatterPlot = (styles, data) => <ScatterPlot {...styles} data={data} />;
 const lineGraph = (styles, data) => <LineGraph {...styles} data={data} />;
-const semLineGraph = (styles, data) => <p>Semiotics!!!</p>;
-// const semLineGraph = (styles, data) => (
-//   <XYFrame
-//     title="Two Movies"
-//     size={[700, 400]}
-//   />
-// );
+// const semLineGraph = (styles, data) => <p>Semiotics!!!</p>;
+const semLineGraph = (styles, data) => (
+  <XYFrame
+    title="Two Movies"
+    size={[700, 400]}
+    lines={data}
+    xAccessor="week"
+    yAccessor="grossWeekly"
+    lineStyle={{
+      stroke: '#00a2ce',
+      strokeWidth: '4px',
+    }}
+    lineType={{ type: 'stackedarea', interpolator: curveCardinal }}
+    linearRenderMode="sketchy"
+    hoverAnnotation
+    pointStyle={{ fill: '#00a2ce' }}
+    showLinePoints
+    margin={{
+        left: 80, bottom: 50, right: 10, top: 40,
+    }}
+    axes={[
+    {
+      orient: 'left',
+    },
+    {
+      orient: 'bottom',
+    },
+    ]}
+  />
+);
 const chartFromType = (type, data, styles) => {
   if (type === ChartType.LINE_GRAPH) {
     return lineGraph(styles, data);
